@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import generics, permissions
 
 from contacts.models import Contact
 from contacts.serializers import ContactSerializer
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 class ContactsAPIViews(generics.ListCreateAPIView):
@@ -51,3 +54,16 @@ class ContactDetailAPIViews(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+def login(request):
+    return render(request, 'login.html')
+
+
+@login_required
+def home(request):
+    return render(request, 'home.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

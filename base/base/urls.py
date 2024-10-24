@@ -16,10 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from contacts.views import ContactsAPIViews, ContactDetailAPIViews
+
+from contacts import views
+from contacts.views import ContactsAPIViews, ContactDetailAPIViews, logout_view
+
+from django.contrib.auth import views as auth_views
+from django.urls import include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('api/v1/contacts/', ContactsAPIViews.as_view()),
     path('api/v1/contacts/<int:pk>/', ContactDetailAPIViews.as_view()),
+
+    path('login/', views.login, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('social-auth/', include('social_django.urls', namespace='social')),
+    path('', views.home, name='home'),
 ]
