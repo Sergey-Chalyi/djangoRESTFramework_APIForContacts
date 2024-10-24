@@ -2,9 +2,6 @@ import requests
 from django.http import JsonResponse
 from base import settings
 
-ALLOWED_COUNTRIES = ['UA', 'PL']
-
-GEOLOCATION_URL = 'https://ipapi.co/{ip}/json/'
 
 class RegionRestrictionMiddleware:
     def __init__(self, get_response):
@@ -12,6 +9,17 @@ class RegionRestrictionMiddleware:
 
 
     def get_client_ip(self, request):
+        """
+           This function retrieves the client's IP address.
+
+           Args:
+               request (HttpRequest): The HTTP request object.
+
+           Returns:
+               str: The client's IP address.
+
+           If the request is in debug mode, it returns a predefined test IP address. Otherwise, it checks the HTTP headers for the X-Forwarded-For header and returns the first IP address found. If the X-Forwarded-For header is not present, it falls back to the REMOTE_ADDR header.
+        """
         if settings.DEBUG:
             return settings.TEST_IP_ADDRESS
 
@@ -39,14 +47,14 @@ class RegionRestrictionMiddleware:
         ip_address = self.get_client_ip(request)
 
         try:
-            response = requests.get(GEOLOCATION_URL.format(ip=ip_address))
+            response = requests.get(settings.GEOLOCATION_URL.format(ip=ip_address))
             data = response.json()
             country = data.get('country')
         except Exception as e:
             print(f"Error: {e}")  # добавил для отладки
             return JsonResponse({'details': "Couldn't get the information about ip"}, status=500)
 
-        if country not in ALLOWED_COUNTRIES:
+        if country not in settings.ALLOWED_COUNTRIES:
             return JsonResponse({'details': "Access denied for your ip!"}, status=403)
 
         return self.get_response(request)

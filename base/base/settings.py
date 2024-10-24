@@ -155,6 +155,12 @@ LOGOUT_REDIRECT_URL = 'login'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
+# parameters to restrict access to certain countries
+ALLOWED_COUNTRIES = ['UA', 'PL']
+
+# parameters for geolocation
+GEOLOCATION_URL = 'https://ipapi.co/{ip}/json/'
+
 # test ip
 TEST_IP_ADDRESS = os.getenv('TEST_IP_ADDRESS')
 
