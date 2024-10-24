@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-_vayulg9pmsea8kv8#)4^^s&)43d#6_o#vwwnd8c-8iay-ijzl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -60,6 +60,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'social_django.middleware.SocialAuthExceptionMiddleware', # Middleware for handling exceptions during social authentication
+
+    'contacts.middleware.RegionRestrictionMiddleware', # Middleware for checking users ip
 ]
 
 ROOT_URLCONF = 'base.urls'
@@ -152,4 +154,7 @@ LOGOUT_REDIRECT_URL = 'login'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
+# test ip
+TEST_IP_ADDRESS = os.getenv('TEST_IP_ADDRESS')
 
