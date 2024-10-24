@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
+    'rest_framework', # register django REST framework
 
-    'contacts.apps.ContactsConfig',
+    'contacts.apps.ContactsConfig',  # register new app
 ]
 
 MIDDLEWARE = [
