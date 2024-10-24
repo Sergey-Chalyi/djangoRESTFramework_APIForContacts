@@ -19,7 +19,7 @@ def validate_phone_number(phone_number):
     if not re.match(r'^\+\d+$', phone_number):
         raise ValidationError('Phone number must start with + and contain only numbers.')
 
-# model
+
 class Contact(models.Model):
     """
     A model representing a contact with first name, last name, phone number, and email.
@@ -50,6 +50,7 @@ class Contact(models.Model):
         str: A string representation of the contact.
         """
         return f'{self.first_name}_{self.last_name}'
+
 
     def save(self, *args, **kwargs):
         """

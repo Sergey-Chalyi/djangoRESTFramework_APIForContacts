@@ -92,6 +92,18 @@ All API endpoints require authentication. The project supports:
 | PUT    | `/api/v1/contacts/{id}/` | Update a contact | Yes |
 | DELETE | `/api/v1/contacts/{id}/` | Delete a contact | Yes |
 
+#### List/Filter Contacts
+```http
+GET /api/v1/contacts/
+```
+
+Supports filtering by first name and/or last name using query parameters:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| first_name | string | Filter contacts by first name (case-insensitive) |
+| last_name | string | Filter contacts by last name (case-insensitive) |
+
 #### Authentication Endpoints
 | Endpoint | Description |
 |----------|-------------|

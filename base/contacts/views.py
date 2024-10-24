@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework import generics, permissions
-
 from contacts.models import Contact
 from contacts.serializers import ContactSerializer
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
@@ -30,6 +28,23 @@ class ContactsAPIViews(generics.ListCreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned contacts by filtering against
+        first_name and last_name query parameters in the URL.
+        """
+        queryset = Contact.objects.all()
+        first_name = self.request.query_params.get('first_name', None)
+        last_name = self.request.query_params.get('last_name', None)
+
+        if first_name is not None:
+            queryset = queryset.filter(first_name=first_name)
+        if last_name is not None:
+            queryset = queryset.filter(last_name=last_name)
+
+        return queryset
 
 
 class ContactDetailAPIViews(generics.RetrieveUpdateDestroyAPIView):
@@ -63,6 +78,7 @@ def login(request):
 @login_required
 def home(request):
     return render(request, 'home.html')
+
 
 def logout_view(request):
     logout(request)
